@@ -1,7 +1,7 @@
 {
   "name": "goit-react-hw-04-hooks-images",
-  "homepage": "https://Myke-Max.github.io/goit-react-hw-04-hooks-imagesnpm i react-icons",
   "version": "0.1.0",
+  "homepage": "https://Myke-Max.github.io/goit-react-hw-04-hooks-images",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
@@ -45,9 +45,9 @@
   },
   "devDependencies": {
     "eslint": "^7.32.0",
-    "husky": "^7.0.2",
+    "husky": "^7.0.1",
     "lint-staged": "^11.1.2",
-    "prettier": "^2.4.1"
+    "prettier": "^2.3.2"
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix",
