@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useState } from "react/cjs/react.development";
+
 import s from "./searchBar.module.css";
 
 export default function SearchBar({ onSubmit }) {
