@@ -18,7 +18,7 @@ const Status = {
   LOADING: "loading",
 };
 
-const App = () => {
+export default function App() {
   const [showModal, setShowModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [images, setImages] = useState([]);
@@ -37,12 +37,12 @@ const App = () => {
         setImages([...images, ...hits]);
         setTotal(total / 12 > 500 ? 500 : total / 12);
 
-        hits[0] ? setStatus(Status.RESOLVED) : setStatus(Status.REJECTED);
-
-        !hits[0] &&
-          setError(
-            "We couldn’t find anything =/. Change your request, please!"
-          );
+        if (hits.length > 0) {
+          setStatus(Status.RESOLVED);
+        } else {
+          setStatus(Status.REJECTED);
+          setError("not found");
+        }
         window.scrollTo({
           top: document.documentElement.scrollHeight,
           behavior: "smooth",
@@ -59,7 +59,6 @@ const App = () => {
       return;
     }
     if (status === Status.LOADING) {
-      setError("");
       setStatus(Status.PENDING);
       onGetImages(searchQuery, page);
     }
@@ -109,8 +108,7 @@ const App = () => {
       </header>
     </div>
   );
-};
-export default App;
+}
 
 // class App extends Component {
 //   state = {
