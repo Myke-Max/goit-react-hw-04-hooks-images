@@ -23,15 +23,12 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [images, setImages] = useState([]);
   const [urlModal, setUrlModal] = useState("");
-  const [status, setStatus] = useState("idle");
+  const [status, setStatus] = useState(Status.IDLE);
   const [error, setError] = useState("");
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(null);
 
   const onGetImages = (searchQuery, page) => {
-    if ((searchQuery = "")) {
-      return;
-    }
     ImageApiService(searchQuery, page)
       .then(({ hits, total }) => {
         setImages([...images, ...hits]);
@@ -55,6 +52,9 @@ export default function App() {
   };
 
   useEffect(() => {
+    if (status === Status.IDLE) {
+      return;
+    }
     if (status === Status.LOADING) {
       setStatus(Status.PENDING);
       // this.setState({ status: Status.PENDING });
@@ -63,7 +63,7 @@ export default function App() {
     if (status !== Status.LOADING) {
       onGetImages(searchQuery, page);
     }
-  }, [searchQuery, page]);
+  }, [searchQuery, page, status, onGetImages]);
 
   const handleQuerySubmit = (searchQuery) => {
     setSearchQuery(searchQuery);
