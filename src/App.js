@@ -18,7 +18,7 @@ const Status = {
   LOADING: "loading",
 };
 
-export default function App() {
+const App = () => {
   const [showModal, setShowModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [images, setImages] = useState([]);
@@ -29,17 +29,20 @@ export default function App() {
   const [total, setTotal] = useState(null);
 
   const onGetImages = (searchQuery, page) => {
+    if (searchQuery === "") {
+      return;
+    }
     ImageApiService(searchQuery, page)
       .then(({ hits, total }) => {
         setImages([...images, ...hits]);
         setTotal(total / 12 > 500 ? 500 : total / 12);
 
-        if (hits.length > 0) {
-          setStatus(Status.RESOLVED);
-        } else {
-          setStatus(Status.REJECTED);
-          setError("not found");
-        }
+        hits[0] ? setStatus(Status.RESOLVED) : setStatus(Status.REJECTED);
+
+        !hits[0] &&
+          setError(
+            "We couldn’t find anything =/. Change your request, please!"
+          );
         window.scrollTo({
           top: document.documentElement.scrollHeight,
           behavior: "smooth",
@@ -56,14 +59,14 @@ export default function App() {
       return;
     }
     if (status === Status.LOADING) {
+      setError("");
       setStatus(Status.PENDING);
-      // this.setState({ status: Status.PENDING });
       onGetImages(searchQuery, page);
     }
     if (status !== Status.LOADING) {
       onGetImages(searchQuery, page);
     }
-  }, [searchQuery, page, status, onGetImages]);
+  }, [searchQuery, page]);
 
   const handleQuerySubmit = (searchQuery) => {
     setSearchQuery(searchQuery);
@@ -106,7 +109,8 @@ export default function App() {
       </header>
     </div>
   );
-}
+};
+export default App;
 
 // class App extends Component {
 //   state = {
