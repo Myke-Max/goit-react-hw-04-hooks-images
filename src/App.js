@@ -28,6 +28,19 @@ export default function App() {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(null);
 
+  useEffect(() => {
+    if (status === Status.IDLE) {
+      return;
+    }
+    if (status === Status.LOADING) {
+      setStatus(Status.PENDING);
+      onGetImages(searchQuery, page);
+    }
+    if (status !== Status.LOADING) {
+      onGetImages(searchQuery, page);
+    }
+  }, [searchQuery, page]);
+
   const onGetImages = (searchQuery, page) => {
     if (searchQuery === "") {
       return;
@@ -53,19 +66,6 @@ export default function App() {
         setError(error);
       });
   };
-
-  useEffect(() => {
-    if (status === Status.IDLE) {
-      return;
-    }
-    if (status === Status.LOADING) {
-      setStatus(Status.PENDING);
-      onGetImages(searchQuery, page);
-    }
-    if (status !== Status.LOADING) {
-      onGetImages(searchQuery, page);
-    }
-  }, [searchQuery, page]);
 
   const handleQuerySubmit = (searchQuery) => {
     setSearchQuery(searchQuery);
