@@ -55,29 +55,6 @@ export default function App() {
   };
 
   useEffect(() => {
-    if (searchQuery === "") {
-      return;
-    }
-    ImageApiService(searchQuery, page)
-      .then(({ hits, total }) => {
-        setImages([...images, ...hits]);
-        setTotal(total / 12 > 500 ? 500 : total / 12);
-
-        if (hits.length > 0) {
-          setStatus(Status.RESOLVED);
-        } else {
-          setStatus(Status.REJECTED);
-          setError("not found");
-        }
-        window.scrollTo({
-          top: document.documentElement.scrollHeight,
-          behavior: "smooth",
-        });
-      })
-      .catch((error) => {
-        setStatus(Status.REJECTED);
-        setError(error);
-      });
     if (status === Status.IDLE) {
       return;
     }
